@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration = com.stormpath.juiser.spring.boot.config.JuiserSecurityAutoConfiguration
+org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer = com.stormpath.juiser.spring.security.config.JuiserSecurityDsl
