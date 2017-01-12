@@ -2,10 +2,10 @@ package com.stormpath.juiser.spring.boot.config;
 
 import com.stormpath.juiser.io.ResourceLoader;
 import com.stormpath.juiser.jwt.ClaimValueResolver;
+import com.stormpath.juiser.jwt.FallbackSigningKeyResolver;
 import com.stormpath.juiser.jwt.JwsClaimsExtractor;
 import com.stormpath.juiser.jwt.StringClaimResolver;
 import com.stormpath.juiser.jwt.StringCollectionClaimResolver;
-import com.stormpath.juiser.jwt.FallbackSigningKeyResolver;
 import com.stormpath.juiser.jwt.config.ConfigJwkResolver;
 import com.stormpath.juiser.jwt.config.JwkConfig;
 import com.stormpath.juiser.jwt.config.JwtConfig;
@@ -15,9 +15,9 @@ import com.stormpath.juiser.spring.security.authentication.ClaimsGrantedAuthorit
 import com.stormpath.juiser.spring.security.authentication.HeaderAuthenticationProvider;
 import com.stormpath.juiser.spring.security.authentication.JwsToUserDetailsConverter;
 import com.stormpath.juiser.spring.security.config.SpringSecurityJwtConfig;
-import com.stormpath.juiser.spring.security.web.authentication.HeaderAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -92,16 +92,25 @@ public class JuiserSecurityAutoConfiguration {
             throw new IllegalArgumentException(msg);
         }
 
-        Long allowedClockSkewSeconds = jwt.getAllowedClockSkewSeconds();
+        JwsClaimsExtractor extractor;
 
         if (resolver != null) {
             if (key != null) {
                 resolver = new FallbackSigningKeyResolver(resolver, key);
             }
-            return new JwsClaimsExtractor(resolver).setAllowedClockSkewSeconds(allowedClockSkewSeconds);
+            extractor = new JwsClaimsExtractor(resolver);
+        } else {
+            if (key != null) {
+                extractor = new JwsClaimsExtractor(key);
+            } else {
+                extractor = new JwsClaimsExtractor();
+            }
         }
 
-        return new JwsClaimsExtractor().setAllowedClockSkewSeconds(allowedClockSkewSeconds);
+        Long allowedClockSkewSeconds = jwt.getAllowedClockSkewSeconds();
+        extractor.setAllowedClockSkewSeconds(allowedClockSkewSeconds);
+
+        return extractor;
     }
 
     @Bean
@@ -112,7 +121,7 @@ public class JuiserSecurityAutoConfiguration {
 
         String expression = jwt.getUsernameExpression();
 
-        if (expression != null) {
+        if (!Strings.hasText(expression)) {
             expression = "['user']['username']";
         }
 
@@ -127,7 +136,7 @@ public class JuiserSecurityAutoConfiguration {
 
         String expression = jwt.getDataExpression();
 
-        if (expression != null) {
+        if (!Strings.hasText(expression)) {
             expression = "['user']";
         }
 
@@ -150,7 +159,7 @@ public class JuiserSecurityAutoConfiguration {
 
         String expression = jwt.getGrantedAuthoritiesExpression();
 
-        if (expression != null) {
+        if (!Strings.hasText(expression)) {
             expression = "['user']['groups']['items'].![get('name')]";
         }
 
@@ -180,12 +189,4 @@ public class JuiserSecurityAutoConfiguration {
         Function<String, UserDetails> converter = juiserHeaderValueUserDetailsConverter();
         return new HeaderAuthenticationProvider(converter);
     }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public HeaderAuthenticationFilter juiserHeaderAuthenticationFilter() {
-        String headerName = forwardedHeaderConfig.getName();
-        return new HeaderAuthenticationFilter(headerName);
-    }
-
 }

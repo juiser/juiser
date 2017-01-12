@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
 import io.jsonwebtoken.lang.Assert;
 import io.jsonwebtoken.lang.Classes;
+import io.jsonwebtoken.lang.RuntimeEnvironment;
 import io.jsonwebtoken.lang.Strings;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -189,6 +190,8 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
                     "juiser.user.header.jwt.key.value PEM-encoded value" :
                     "juiser.user.header.jwt.key.resource [" + keyResource + "].");
             throw new IllegalStateException(msg);
+        } else {
+            RuntimeEnvironment.enableBouncyCastleIfPossible();
         }
 
         return new PemResourceKeyResolver();

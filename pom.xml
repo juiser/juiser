@@ -85,6 +85,7 @@
         <module>spring</module>
         <module>spring-security</module>
         <module>spring-boot-starter</module>
+        <module>examples</module>
     </modules>
 
     <dependencyManagement>

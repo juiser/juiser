@@ -32,7 +32,7 @@ public class ForwardedUserAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return null;
+        return details;
     }
 
     @Override
