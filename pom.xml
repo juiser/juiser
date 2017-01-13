@@ -24,7 +24,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>com.stormpath</groupId>
+    <groupId>com.stormpath.juiser</groupId>
     <artifactId>juiser-root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <name>Juiser :: Root pom</name>
@@ -54,23 +54,23 @@
     </ciManagement>
 
     <properties>
+        <jdk.version>1.8</jdk.version>
         <!-- Turn off JDK 8's lint checks: -->
         <additionalparam>-Xdoclint:none</additionalparam>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.jar.version>3.0.2</maven.jar.version>
         <maven.compiler.version>3.5.1</maven.compiler.version>
-        <jdk.version>1.8</jdk.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <buildNumber>${user.name}-${maven.build.timestamp}</buildNumber>
+
         <bouncycastle.version>1.56</bouncycastle.version>
-        <slf4j.version>1.7.21</slf4j.version>
-        <servlet.version>3.1.0</servlet.version>
         <jjwt.version>0.7.0</jjwt.version>
+        <servlet.version>3.1.0</servlet.version>
+        <slf4j.version>1.7.21</slf4j.version>
         <spring.version>4.3.5.RELEASE</spring.version>
         <spring.boot.version>1.4.3.RELEASE</spring.boot.version>
-        <spring.cloud.netflix.version>1.1.5.RELEASE</spring.cloud.netflix.version>
         <spring.security.version>4.2.1.RELEASE</spring.security.version>
 
+        <!-- Test dependencies: -->
         <groovy.version>2.4.7</groovy.version>
         <logback.version>1.1.7</logback.version>
         <easymock.version>3.4</easymock.version>
@@ -91,22 +91,22 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.stormpath</groupId>
+                <groupId>com.stormpath.juiser</groupId>
                 <artifactId>juiser-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.stormpath</groupId>
+                <groupId>com.stormpath.juiser</groupId>
                 <artifactId>juiser-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.stormpath</groupId>
+                <groupId>com.stormpath.juiser</groupId>
                 <artifactId>juiser-spring-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.stormpath</groupId>
+                <groupId>com.stormpath.juiser</groupId>
                 <artifactId>juiser-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -179,6 +179,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!--
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
@@ -203,6 +204,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -214,16 +216,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>${spring.boot.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- Test Dependencies: Only required for testing when building.  Not required by users at runtime: -->
@@ -329,6 +321,7 @@
                         </goals>
                         <configuration>
                             <rules>
+                                <dependencyConvergence/>
                                 <bannedDependencies>
                                     <searchTransitive>true</searchTransitive>
                                     <excludes>

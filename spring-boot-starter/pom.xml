@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.stormpath</groupId>
+        <groupId>com.stormpath.juiser</groupId>
         <artifactId>juiser-root</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -32,7 +32,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.stormpath</groupId>
+            <groupId>com.stormpath.juiser</groupId>
             <artifactId>juiser-spring-security</artifactId>
         </dependency>
         <dependency>

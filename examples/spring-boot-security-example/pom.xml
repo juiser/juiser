@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.stormpath</groupId>
+        <groupId>com.stormpath.juiser</groupId>
         <artifactId>juiser-root</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
@@ -31,7 +31,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.stormpath</groupId>
+            <groupId>com.stormpath.juiser</groupId>
             <artifactId>juiser-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
@@ -56,7 +56,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
