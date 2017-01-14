@@ -7,9 +7,7 @@ import com.stormpath.juiser.jwt.config.JwtConfig;
  */
 public class SpringSecurityJwtConfig extends JwtConfig {
 
-    private String usernameExpression;
-
-    private String dataExpression;
+    private String userClaimName;
 
     private String grantedAuthoritiesExpression;
 
@@ -17,20 +15,12 @@ public class SpringSecurityJwtConfig extends JwtConfig {
         super();
     }
 
-    public String getUsernameExpression() {
-        return usernameExpression;
+    public String getUserClaimName() {
+        return userClaimName;
     }
 
-    public void setUsernameExpression(String usernameExpression) {
-        this.usernameExpression = usernameExpression;
-    }
-
-    public String getDataExpression() {
-        return dataExpression;
-    }
-
-    public void setDataExpression(String dataExpression) {
-        this.dataExpression = dataExpression;
+    public void setUserClaimName(String userClaimName) {
+        this.userClaimName = userClaimName;
     }
 
     public String getGrantedAuthoritiesExpression() {

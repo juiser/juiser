@@ -1,5 +1,6 @@
 package com.stormpath.juiser.spring.security.core.userdetails;
 
+import com.stormpath.juiser.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
@@ -10,16 +11,15 @@ import java.util.Collection;
 /**
  * @since 0.1.0
  */
-public class ForwardedUserDetails<T> implements UserDetails {
+public class ForwardedUserDetails implements UserDetails {
 
-    private final String username;
-    private final T data;
+    private final User user;
     private final Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    public ForwardedUserDetails(String username, T data, Collection<? extends GrantedAuthority> grantedAuthorities) {
-        Assert.hasText(username, "username argument cannot be null or empty.");
-        this.username = username;
-        this.data = data;
+    public ForwardedUserDetails(User user, Collection<? extends GrantedAuthority> grantedAuthorities) {
+        Assert.notNull(user, "User argument cannot be null.");
+        Assert.hasText(user.getUsername(), "User username cannot be null or empty.");
+        this.user = user;
         if (CollectionUtils.isEmpty(grantedAuthorities)) {
             this.grantedAuthorities = java.util.Collections.emptyList();
         } else {
@@ -27,8 +27,8 @@ public class ForwardedUserDetails<T> implements UserDetails {
         }
     }
 
-    public T getData() {
-        return data;
+    public User getUser() {
+        return this.user;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ForwardedUserDetails<T> implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return getUser().getUsername();
     }
 
     @Override

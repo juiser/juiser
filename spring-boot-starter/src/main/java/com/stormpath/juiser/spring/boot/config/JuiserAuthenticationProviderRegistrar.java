@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
  * @since 0.1.0
  */
 @Configuration
-//@ConditionalOnProperty(name = {"juiser.enabled", "juiser.security.enabled"}, matchIfMissing = true)
-//@AutoConfigureAfter(JuiserSecurityAutoConfiguration.class)
 public class JuiserAuthenticationProviderRegistrar extends AbstractHttpConfigurer<JuiserAuthenticationProviderRegistrar, HttpSecurity> {
 
     @Autowired

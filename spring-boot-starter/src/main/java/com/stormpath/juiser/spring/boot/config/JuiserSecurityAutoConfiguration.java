@@ -1,20 +1,21 @@
 package com.stormpath.juiser.spring.boot.config;
 
 import com.stormpath.juiser.io.ResourceLoader;
-import com.stormpath.juiser.jwt.ClaimValueResolver;
 import com.stormpath.juiser.jwt.FallbackSigningKeyResolver;
 import com.stormpath.juiser.jwt.JwsClaimsExtractor;
-import com.stormpath.juiser.jwt.StringClaimResolver;
 import com.stormpath.juiser.jwt.StringCollectionClaimResolver;
 import com.stormpath.juiser.jwt.config.ConfigJwkResolver;
 import com.stormpath.juiser.jwt.config.JwkConfig;
 import com.stormpath.juiser.jwt.config.JwtConfig;
+import com.stormpath.juiser.model.DefaultMapUserFactory;
+import com.stormpath.juiser.model.User;
 import com.stormpath.juiser.spring.io.SpringResourceLoader;
 import com.stormpath.juiser.spring.jwt.ClaimsExpressionEvaluator;
 import com.stormpath.juiser.spring.security.authentication.ClaimsGrantedAuthoritiesResolver;
 import com.stormpath.juiser.spring.security.authentication.HeaderAuthenticationProvider;
 import com.stormpath.juiser.spring.security.authentication.JwsToUserDetailsConverter;
 import com.stormpath.juiser.spring.security.config.SpringSecurityJwtConfig;
+import com.stormpath.juiser.spring.security.user.SecurityContextUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SigningKeyResolver;
 import io.jsonwebtoken.lang.Strings;
@@ -32,6 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
 import java.util.Collection;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -114,40 +116,38 @@ public class JuiserSecurityAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "juiserUsernameClaimResolver")
-    public Function<Claims, String> juiserUsernameClaimResolver() {
-
-        final SpringSecurityJwtConfig jwt = forwardedHeaderConfig.getJwt();
-
-        String expression = jwt.getUsernameExpression();
-
-        if (!Strings.hasText(expression)) {
-            expression = "['user']['username']";
-        }
-
-        return new StringClaimResolver(new ClaimsExpressionEvaluator(expression), true);
+    @ConditionalOnMissingBean(name = "juiserJwtClaimsUserFactory")
+    public Function<Map<String, ?>, User> juiserJwtUserDataResolver() {
+        return new DefaultMapUserFactory();
     }
 
+    @SuppressWarnings("unchecked")
     @Bean
-    @ConditionalOnMissingBean(name = "juiserJwtDataExtractor")
-    public Function<Claims, ?> juiserJwtDataResolver() {
+    @ConditionalOnMissingBean(name = "juiserJwtClaimsUserFactory")
+    public Function<Claims, User> juiserJwtClaimsUserFactory() {
 
         final SpringSecurityJwtConfig jwt = forwardedHeaderConfig.getJwt();
 
-        String expression = jwt.getDataExpression();
+        final Function<Map<String, ?>, User> juiserJwtUserDataResolver = juiserJwtUserDataResolver();
 
-        if (!Strings.hasText(expression)) {
-            expression = "['user']";
-        }
+        final String userClaimName = jwt.getUserClaimName();
 
-        return new ClaimValueResolver<Object>(new ClaimsExpressionEvaluator(expression), false) {
-            @Override
-            protected Object toTypedValue(Object value, Claims claims) {
-                if (value == null) {
-                    value = claims;
+        return claims -> {
+            Map<String, ?> data = claims;
+
+            if (Strings.hasText(userClaimName) && claims.containsKey(userClaimName)) {
+                Object value = claims.get(userClaimName);
+                if (value != null && value instanceof Map) {
+                    data = (Map<String, ?>) value;
                 }
-                return value;
+            } else if (claims.containsKey("user")) {
+                Object value = claims.get("user");
+                if (value != null && value instanceof Map) {
+                    data = (Map<String, ?>) value;
+                }
             }
+
+            return juiserJwtUserDataResolver.apply(data);
         };
     }
 
@@ -171,15 +171,13 @@ public class JuiserSecurityAutoConfiguration {
     public Function<String, UserDetails> juiserHeaderValueUserDetailsConverter() {
 
         Function<String, Claims> claimsExtractor = juiserJwsClaimsExtractor();
-        Function<Claims, ?> dataExtractor = juiserJwtDataResolver();
-        Function<Claims, String> usernameClaimResolver = juiserUsernameClaimResolver();
+        Function<Claims, User> claimsUserFactory = juiserJwtClaimsUserFactory();
         Function<Claims, Collection<? extends GrantedAuthority>> grantedAuthoritiesResolver =
             new ClaimsGrantedAuthoritiesResolver(juiserGrantedAuthoritiesClaimResolver());
 
         return new JwsToUserDetailsConverter(
             claimsExtractor,
-            dataExtractor,
-            usernameClaimResolver,
+            claimsUserFactory,
             grantedAuthoritiesResolver);
     }
 
@@ -188,5 +186,11 @@ public class JuiserSecurityAutoConfiguration {
     public AuthenticationProvider juiserAuthenticationProvider() {
         Function<String, UserDetails> converter = juiserHeaderValueUserDetailsConverter();
         return new HeaderAuthenticationProvider(converter);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public User juiseUser() {
+        return new SecurityContextUser();
     }
 }
