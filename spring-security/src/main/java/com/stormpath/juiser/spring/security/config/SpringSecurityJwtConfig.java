@@ -7,20 +7,10 @@ import com.stormpath.juiser.jwt.config.JwtConfig;
  */
 public class SpringSecurityJwtConfig extends JwtConfig {
 
-    private String userClaimName;
-
     private String grantedAuthoritiesExpression;
 
     public SpringSecurityJwtConfig() {
         super();
-    }
-
-    public String getUserClaimName() {
-        return userClaimName;
-    }
-
-    public void setUserClaimName(String userClaimName) {
-        this.userClaimName = userClaimName;
     }
 
     public String getGrantedAuthoritiesExpression() {

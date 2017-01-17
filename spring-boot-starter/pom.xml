@@ -36,46 +36,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.security</groupId>
-                    <artifactId>spring-security-config</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>aopalliance</groupId>
-                    <artifactId>aopalliance</artifactId>
-                </exclusion>
-            </exclusions>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>aopalliance</groupId>
-                    <artifactId>aopalliance</artifactId>
-                </exclusion>
-            </exclusions>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.stormpath.juiser</groupId>
@@ -86,12 +54,12 @@
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
-                <!-- This is included in spring-boot-starter-security above: -->
+                <!-- This is included in spring-boot-starter-security: -->
                 <exclusion>
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-web</artifactId>
                 </exclusion>
-                <!-- This is included in spring-boot-starter-security above: -->
+                <!-- This is included in spring-boot-starter-security: -->
                 <exclusion>
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-config</artifactId>

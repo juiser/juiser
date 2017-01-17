@@ -13,6 +13,8 @@ public class JwtConfig {
 
     private JwkConfig key; //JWT key (JWK) config
 
+    private String userClaimName; //claim in the JWT that represents the entire user object or null if not nested
+
     public JwtConfig() {
         this.enabled = true;
         this.key = new JwkConfig();
@@ -25,6 +27,14 @@ public class JwtConfig {
 
     public void setAllowedClockSkewSeconds(Long allowedClockSkewSeconds) {
         this.allowedClockSkewSeconds = allowedClockSkewSeconds;
+    }
+
+    public String getUserClaimName() {
+        return userClaimName;
+    }
+
+    public void setUserClaimName(String userClaimName) {
+        this.userClaimName = userClaimName;
     }
 
     public boolean isEnabled() {

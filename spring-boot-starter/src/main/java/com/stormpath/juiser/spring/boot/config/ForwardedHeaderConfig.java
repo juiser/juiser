@@ -1,39 +1,40 @@
 package com.stormpath.juiser.spring.boot.config;
 
-import com.stormpath.juiser.spring.security.config.SpringSecurityJwtConfig;
+import com.stormpath.juiser.jwt.config.JwtConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * @since 1.3.0
- */
 @ConfigurationProperties("juiser.user.header")
-public class ForwardedHeaderConfig {
+public class ForwardedHeaderConfig<T extends JwtConfig> {
 
     @SuppressWarnings("WeakerAccess")
     public static final String DEFAULT_NAME = "X-Forwarded-User";
 
     private String name;
 
-    private SpringSecurityJwtConfig jwt;
+    private T jwt;
 
+    @SuppressWarnings("unchecked")
     public ForwardedHeaderConfig() {
         this.name = DEFAULT_NAME;
-        this.jwt = new SpringSecurityJwtConfig();
+        T jwt = (T) new JwtConfig();
+        setJwt(jwt);
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public ForwardedHeaderConfig<T> setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public SpringSecurityJwtConfig getJwt() {
+    public T getJwt() {
         return jwt;
     }
 
-    public void setJwt(SpringSecurityJwtConfig jwt) {
+    public ForwardedHeaderConfig<T> setJwt(T jwt) {
         this.jwt = jwt;
+        return this;
     }
 }
