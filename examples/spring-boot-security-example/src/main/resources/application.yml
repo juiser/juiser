@@ -1,9 +1,0 @@
-server:
-  use-forward-headers: true
-
-juiser:
-  user:
-    header:
-      jwt:
-        key:
-          resource: classpath:rsatest.pub.pem
