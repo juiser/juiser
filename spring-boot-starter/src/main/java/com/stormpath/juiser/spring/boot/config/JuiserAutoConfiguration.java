@@ -9,14 +9,11 @@ import com.stormpath.juiser.jwt.config.JwtConfig;
 import com.stormpath.juiser.model.DefaultMapUserFactory;
 import com.stormpath.juiser.model.User;
 import com.stormpath.juiser.spring.io.SpringResourceLoader;
-import com.stormpath.juiser.spring.security.config.SpringSecurityJwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SigningKeyResolver;
 import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -26,32 +23,12 @@ import java.security.Key;
 import java.util.Map;
 import java.util.function.Function;
 
+@SuppressWarnings({"SpringAutowiredFieldsWarningInspection", "SpringJavaAutowiringInspection"})
 @Configuration
 @ConditionalOnProperty(name = {"juiser.enabled"}, matchIfMissing = true)
 public class JuiserAutoConfiguration {
 
-    @ConditionalOnMissingClass("org.springframework.security.authentication.AuthenticationProvider")
-    public static class DefaultConfig {
-
-        @Bean
-        @ConditionalOnMissingBean
-        public ForwardedHeaderConfig<JwtConfig> forwardedHeaderConfig() {
-            return new ForwardedHeaderConfig<>();
-        }
-    }
-
-    @ConditionalOnClass(name = "org.springframework.security.authentication.AuthenticationProvider")
-    public static class SpringSecurityConfig {
-
-        @Bean
-        @ConditionalOnMissingBean
-        public ForwardedHeaderConfig<SpringSecurityJwtConfig> forwardedHeaderConfig() {
-            return new ForwardedHeaderConfig<SpringSecurityJwtConfig>().setJwt(new SpringSecurityJwtConfig());
-        }
-    }
-
     @Autowired
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     private ForwardedHeaderConfig forwardedHeaderConfig;
 
     @Autowired
@@ -73,8 +50,8 @@ public class JuiserAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "juiserJwsClaimsExtractor")
-    public Function<String, Claims> juiserJwsClaimsExtractor() {
+    @ConditionalOnMissingBean(name = "juiserForwardedUserJwsClaimsExtractor")
+    public Function<String, Claims> juiserForwardedUserJwsClaimsExtractor() {
 
         final JwtConfig jwt = forwardedHeaderConfig.getJwt();
         final JwkConfig jwk = jwt.getKey();

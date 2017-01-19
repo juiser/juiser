@@ -8,17 +8,20 @@ import com.stormpath.juiser.spring.security.authentication.HeaderAuthenticationP
 import com.stormpath.juiser.spring.security.authentication.JwsToUserDetailsConverter;
 import com.stormpath.juiser.spring.security.config.SpringSecurityJwtConfig;
 import com.stormpath.juiser.spring.security.user.SecurityContextUser;
+import com.stormpath.juiser.spring.security.web.authentication.HeaderAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,31 +31,31 @@ import java.util.function.Function;
 /**
  * @since 0.1.0
  */
+@SuppressWarnings({"SpringJavaAutowiringInspection", "SpringAutowiredFieldsWarningInspection"})
 @Configuration
-@ConditionalOnClass({AuthenticationProvider.class})
-@ConditionalOnProperty(name = {"juiser.enabled", "juiser.security.enabled", "security.basic.enabled", "management.security.enabled"}, matchIfMissing = true)
-@AutoConfigureAfter(JuiserAutoConfiguration.class)
+@ConditionalOnClass({AbstractHttpConfigurer.class})
+@ConditionalOnJuiserSpringSecurityEnabled
 public class JuiserSecurityAutoConfiguration {
 
     @Autowired
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    private ForwardedHeaderConfig<SpringSecurityJwtConfig> config;
-
-    @Autowired
-    @Qualifier("juiserJwsClaimsExtractor")
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Qualifier("juiserForwardedUserJwsClaimsExtractor")
     private Function<String, Claims> claimsExtractor;
 
     @Autowired
     @Qualifier("juiserJwtClaimsUserFactory")
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     private Function<Claims, User> claimsUserFactory;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ForwardedHeaderConfig<SpringSecurityJwtConfig> forwardedHeaderConfig() {
+        return new ForwardedHeaderConfig<>(new SpringSecurityJwtConfig());
+    }
 
     @Bean
     @ConditionalOnMissingBean(name = "juiserJwtDataExtractor")
     public Function<Claims, Collection<String>> juiserGrantedAuthoritiesClaimResolver() {
 
-        final SpringSecurityJwtConfig jwt = config.getJwt();
+        final SpringSecurityJwtConfig jwt = forwardedHeaderConfig().getJwt();
 
         String expression = jwt.getGrantedAuthoritiesExpression();
 
@@ -78,6 +81,12 @@ public class JuiserSecurityAutoConfiguration {
     public AuthenticationProvider juiserAuthenticationProvider() {
         Function<String, UserDetails> converter = juiserJwsUserDetailsConverter();
         return new HeaderAuthenticationProvider(converter);
+    }
+
+    @Autowired
+    public void registerAuthenticationProvider(AuthenticationManagerBuilder builder,
+                                               @Qualifier("juiserAuthenticationProvider") AuthenticationProvider provider) {
+        builder.authenticationProvider(provider);
     }
 
     @Bean

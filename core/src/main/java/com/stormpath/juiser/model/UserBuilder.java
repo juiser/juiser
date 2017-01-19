@@ -13,6 +13,7 @@ import java.util.TimeZone;
  */
 public class UserBuilder {
 
+    private boolean authenticated;
     private String href;
     private String id;
     private String name;
@@ -33,6 +34,11 @@ public class UserBuilder {
     private Phone phone;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+
+    public UserBuilder setAuthenticated(boolean authenticated) {
+        this.authenticated = authenticated;
+        return this;
+    }
 
     public UserBuilder setHref(String href) {
         this.href = href;
@@ -175,8 +181,8 @@ public class UserBuilder {
     }
 
     public User build() {
-        return new ImmutableUser(href, id, name, givenName, familyName, middleName, nickname, username, profile,
-            picture, website, email, emailVerified, gender, birthdate, zoneInfo, locale, phone,
+        return new ImmutableUser(authenticated, href, id, name, givenName, familyName, middleName, nickname, username,
+            profile, picture, website, email, emailVerified, gender, birthdate, zoneInfo, locale, phone,
             createdAt, updatedAt);
     }
 }

@@ -81,7 +81,9 @@
 
     <modules>
         <module>core</module>
+        <module>servlet</module>
         <module>spring</module>
+        <module>spring-web</module>
         <module>spring-security</module>
         <module>spring-boot-starter</module>
     </modules>
@@ -95,7 +97,17 @@
             </dependency>
             <dependency>
                 <groupId>com.stormpath.juiser</groupId>
+                <artifactId>juiser-servlet</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.stormpath.juiser</groupId>
                 <artifactId>juiser-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.stormpath.juiser</groupId>
+                <artifactId>juiser-spring-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -128,6 +140,17 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
                 <exclusions>
                     <exclusion>

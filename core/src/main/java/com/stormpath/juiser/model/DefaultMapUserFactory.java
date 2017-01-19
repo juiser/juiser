@@ -19,6 +19,10 @@ public class DefaultMapUserFactory implements Function<Map<String, ?>, User> {
 
         UserBuilder builder = new UserBuilder();
 
+        //if we're in this method, the assumption is that the data has been verified to be authentic, so we
+        //consider the instance authenticated:
+        builder.setAuthenticated(true);
+
         String value = getString(data, "href");
         if (value != null) {
             builder.setHref(value);
