@@ -122,7 +122,7 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
                     "juiser.user.header.jwt.key.value is a public asymmetric PEM-encoded string, " +
                     "or 2) set the juiser.user.header.jwt.key.resource property to a " +
                     "Resource path where the PEM-encoded public key file resides, or " +
-                    "or 3) define a bean named 'stormpathForwardedAccountJwtSigningKey' that returns an " +
+                    "or 3) define a bean named 'juiserForwardedAccountJwtSigningKey' that returns an " +
                     algFam + " private key instance.";
                 throw new IllegalArgumentException(msg);
             }
