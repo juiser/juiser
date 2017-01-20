@@ -23,11 +23,11 @@
         <groupId>org.juiser</groupId>
         <artifactId>juiser-root</artifactId>
         <version>0.1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>juiser-spring-boot-starter</artifactId>
-    <name>Juiser :: Spring Boot Starter</name>
+    <name>Juiser :: Spring :: Boot Starter</name>
     <packaging>jar</packaging>
 
     <dependencies>

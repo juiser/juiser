@@ -86,10 +86,7 @@
     <modules>
         <module>core</module>
         <module>servlet</module>
-        <module>spring</module>
-        <module>spring-web</module>
-        <module>spring-security</module>
-        <module>spring-boot-starter</module>
+        <module>spring-root</module>
     </modules>
 
     <dependencyManagement>
