@@ -15,12 +15,14 @@
   -->
 # Java Token Authentication Made Easy
 
-Juiser (pronounced "juicer", a [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) of "java", "juice" and "user") is a small Java library that automates 
-token authentication during an HTTP request.  After authentication, a simple but clean `User` object will be 
-available to your code to support user-specific logic and authorization decisions.
+Juiser (pronounced "juicer", a [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) of "java", "juice" and "user") 
+is a small Java library that automates token authentication during an HTTP request.  After authentication, a simple 
+but clean `User` object will be available to your code to support user-specific logic and authorization decisions.
 
 Currently Juiser supports the `X-Forwarded-User` header with either JSON or [JWS](https://tools.ietf.org/html/rfc7515)
-values.  Juiser works in both standard Servlet applications as well as Spring/Boot applications.
+values.  The first Juiser 0.1.0 release will support Spring Boot applications, with other application environments
+(e.g. Servlet only) added in the future.  If you'd like to help in this effort, please open a GitHub issue to start 
+collaborating!
 
 ## Security Frameworks
 
@@ -28,8 +30,8 @@ Juiser has one purpose and one purpose only - to translate an authentication tok
 into an intuitive `User` object and make that `User` object available during a request.
 
 You can use the `User` object during a request to perform security checks 
-(like `user.isAuthenticated()` or `user.hasRole("admin")`) and get information about the user (e.g. `user.getName()`), etc, and
-this may be perfectly suitable for many applications.
+(like `user.isAuthenticated()` or `user.hasRole("admin")`) and get information about the user (e.g. `user.getName()`), 
+etc, and this may be perfectly suitable for many applications.
 
 However if you have any need of more powerful security controls, we recommend that you use Apache Shiro or Spring
 Security and configure these frameworks to delegate to Juiser as necessary so you have one cohesive security
@@ -38,8 +40,8 @@ programming experience.
 ### Spring Security
 
 Juiser already has native support for Spring Security so you can still leverage all the security controls
-Spring Security provides.  You don't even need to use Juiser's `User` api at all if you don't want to - just use standard
-Spring Security classes like `UserDetails` and you'll never know Juiser is 'in the mix' at all.
+Spring Security provides.  You don't even need to use Juiser's `User` api at all if you don't want to - just use 
+standard Spring Security classes like `UserDetails` and you'll never know Juiser is 'in the mix' at all.
 
 That said, even with this Spring Security support, we think you'll find that our `User` API is a really nice 
 enhancement on top of Spring Security and you'll probably want to use it in addition to everything else Spring Security
