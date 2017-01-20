@@ -15,7 +15,7 @@
   -->
 # Java Token Authentication Made Easy
 
-Juiser (pronounced "juicer", a play on "java", "juice" and "user") is a small Java library that automates 
+Juiser (pronounced "juicer", a [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) of "java", "juice" and "user") is a small Java library that automates 
 token authentication during an HTTP request.  After authentication, a simple but clean `User` object will be 
 available to your code to support user-specific logic and authorization decisions.
 
