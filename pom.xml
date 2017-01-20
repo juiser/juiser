@@ -86,7 +86,7 @@
     <modules>
         <module>core</module>
         <module>servlet</module>
-        <module>spring-root</module>
+        <module>spring</module>
     </modules>
 
     <dependencyManagement>

@@ -30,7 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>spring</module>
+        <module>spring-core</module>
         <module>spring-web</module>
         <module>spring-security</module>
         <module>spring-boot-starter</module>
