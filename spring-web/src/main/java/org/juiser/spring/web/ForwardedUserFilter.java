@@ -30,6 +30,9 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.function.Function;
 
+/**
+ * @since 0.1.0
+ */
 public class ForwardedUserFilter extends OncePerRequestFilter {
 
     private final String headerName;

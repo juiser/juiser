@@ -24,6 +24,9 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * @since 0.1.0
+ */
 @ConfigurationProperties("juiser.web.filter")
 public class ForwardedUserFilterConfig {
 

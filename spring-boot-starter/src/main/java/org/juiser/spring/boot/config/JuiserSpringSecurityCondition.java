@@ -27,6 +27,9 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * @since 0.1.0
+ */
 public class JuiserSpringSecurityCondition extends SpringBootCondition {
 
     private static final Set<String> props = new LinkedHashSet<>(Arrays.asList("juiser.security.enabled", "security.basic.enabled", "management.security.enabled"));

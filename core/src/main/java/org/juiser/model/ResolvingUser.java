@@ -21,6 +21,9 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * @since 0.1.0
+ */
 public abstract class ResolvingUser implements User {
 
     protected abstract User findUser();

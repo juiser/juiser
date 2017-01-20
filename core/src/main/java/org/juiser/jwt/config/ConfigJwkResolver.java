@@ -35,6 +35,9 @@ import java.security.interfaces.ECKey;
 import java.security.interfaces.RSAKey;
 import java.util.function.Function;
 
+/**
+ * @since 0.1.0
+ */
 public class ConfigJwkResolver implements Function<JwkConfig, Key> {
 
     private final ResourceLoader resourceLoader;

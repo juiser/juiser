@@ -38,6 +38,9 @@ import java.security.Key;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * @since 0.1.0
+ */
 @SuppressWarnings({"SpringAutowiredFieldsWarningInspection", "SpringJavaAutowiringInspection"})
 @Configuration
 @ConditionalOnProperty(name = {"juiser.enabled"}, matchIfMissing = true)

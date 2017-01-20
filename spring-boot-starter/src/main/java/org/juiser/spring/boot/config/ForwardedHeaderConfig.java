@@ -19,6 +19,9 @@ import org.juiser.jwt.config.JwtConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.Assert;
 
+/**
+ * @since 0.1.0
+ */
 @ConfigurationProperties("juiser.user.header")
 public class ForwardedHeaderConfig<T extends JwtConfig> {
 
