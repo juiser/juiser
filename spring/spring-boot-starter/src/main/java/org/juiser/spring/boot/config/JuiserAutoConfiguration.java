@@ -15,6 +15,9 @@
  */
 package org.juiser.spring.boot.config;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.lang.Strings;
 import org.juiser.io.ResourceLoader;
 import org.juiser.jwt.FallbackSigningKeyResolver;
 import org.juiser.jwt.JwsClaimsExtractor;
@@ -24,15 +27,13 @@ import org.juiser.jwt.config.JwtConfig;
 import org.juiser.model.DefaultMapUserFactory;
 import org.juiser.model.User;
 import org.juiser.spring.io.SpringResourceLoader;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.SigningKeyResolver;
-import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Assert;
 
 import java.security.Key;
 import java.util.Map;

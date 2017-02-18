@@ -58,7 +58,7 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
             try {
                 algorithmFamily = AlgorithmFamily.forName(algFamilyName);
             } catch (IllegalArgumentException e) {
-                String msg = "Unsupported juiser.user.header.jwt.jwk.algFamily value: " + algFamilyName + ".  " +
+                String msg = "Unsupported juiser.header.jwt.jwk.algFamily value: " + algFamilyName + ".  " +
                     "Please use only " + AlgorithmFamily.class.getName() + " enum names: " +
                     Strings.arrayToCommaDelimitedString(AlgorithmFamily.values());
                 throw new IllegalArgumentException(msg, e);
@@ -74,8 +74,8 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
         boolean keyStringSpecified = Strings.hasText(keyString);
 
         if (keyResource != null && keyStringSpecified) {
-            String msg = "Both the juiser.user.header.jwt.key.value and " +
-                "juiser.user.header.jwt.key.resource properties may not be set simultaneously.  " +
+            String msg = "Both the juiser.header.jwt.key.value and " +
+                "juiser.header.jwt.key.resource properties may not be set simultaneously.  " +
                 "Please choose one.";
             throw new IllegalArgumentException(msg);
         }
@@ -102,7 +102,7 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
             } else if (encoding.equalsIgnoreCase("pem")) {
                 byte[] resourceBytes = keyString.getBytes(StandardCharsets.UTF_8);
                 final ByteArrayInputStream bais = new ByteArrayInputStream(resourceBytes);
-                keyResource = new DefaultResource(bais, "juiser.user.header.jwt.key.value");
+                keyResource = new DefaultResource(bais, "juiser.header.jwt.key.value");
             } else {
                 throw new IllegalArgumentException("Unsupported encoding '" + encoding + "'.  Supported " +
                     "encodings: base64url, base64, utf8, pem.");
@@ -117,13 +117,13 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
 
             if (!algorithmFamily.equals(AlgorithmFamily.HMAC)) {
                 String algFam = algorithmFamily.name();
-                String msg = "It appears that the juiser.user.header.jwt.key.value " +
+                String msg = "It appears that the juiser.header.jwt.key.value " +
                     "is a shared (symmetric) secret key, and this requires the " +
-                    "juiser.user.header.jwt.key.algFamily value to equal HMAC. " +
-                    "The specified juiser.user.header.jwt.key.algFamily value is " + algFam + ". " +
+                    "juiser.header.jwt.key.algFamily value to equal HMAC. " +
+                    "The specified juiser.header.jwt.key.algFamily value is " + algFam + ". " +
                     "If you wish to use the " + algFam + " algorithm, please ensure that either 1) " +
-                    "juiser.user.header.jwt.key.value is a public asymmetric PEM-encoded string, " +
-                    "or 2) set the juiser.user.header.jwt.key.resource property to a " +
+                    "juiser.header.jwt.key.value is a public asymmetric PEM-encoded string, " +
+                    "or 2) set the juiser.header.jwt.key.resource property to a " +
                     "Resource path where the PEM-encoded public key file resides, or " +
                     "or 3) define a bean named 'juiserForwardedAccountJwtSigningKey' that returns an " +
                     algFam + " private key instance.";
@@ -155,7 +155,7 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
                     algorithmFamily = AlgorithmFamily.EC;
                 } else {
                     String msg = "Unable to detect jwt signing key type to provide a default signature " +
-                        "algorithm.  Please specify the juiser.user.header.jwt.key.algFamily property.";
+                        "algorithm.  Please specify the juiser.header.jwt.key.algFamily property.";
                     throw new IllegalArgumentException(msg);
                 }
             }
@@ -186,7 +186,7 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
                 try {
                     return this.resourceLoader.getResource(value);
                 } catch (Exception e) {
-                    String msg = "Unable to load juiser.user.header.jwt.key.resource [" + value + "].";
+                    String msg = "Unable to load juiser.header.jwt.key.resource [" + value + "].";
                     throw new IllegalArgumentException(msg, e);
                 }
             }
@@ -205,8 +205,8 @@ public class ConfigJwkResolver implements Function<JwkConfig, Key> {
             String msg = "The org.bouncycastle:bcpkix-jdk15on:1.56 artifact (or newer) must be in the " +
                 "classpath to be able to parse the " +
                 (keyStringSpecified ?
-                    "juiser.user.header.jwt.key.value PEM-encoded value" :
-                    "juiser.user.header.jwt.key.resource [" + keyResource + "].");
+                    "juiser.header.jwt.key.value PEM-encoded value" :
+                    "juiser.header.jwt.key.resource [" + keyResource + "].");
             throw new IllegalStateException(msg);
         } else {
             RuntimeEnvironment.enableBouncyCastleIfPossible();

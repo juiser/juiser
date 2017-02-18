@@ -15,9 +15,11 @@
  */
 package org.juiser.spring.security.authentication;
 
+import io.jsonwebtoken.JwtException;
 import org.juiser.spring.security.core.ForwardedUserAuthentication;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,10 +57,19 @@ public class HeaderAuthenticationProvider implements AuthenticationProvider {
 
         String value = (String) creds;
         if (!StringUtils.hasText(value)) {
-            throw new BadCredentialsException("HeaderAuthenticationToken credentials cannot be null or empty.");
+            throw new BadCredentialsException("HeaderAuthenticationToken credentials String cannot be null or empty.");
         }
 
-        UserDetails details = converter.apply(value);
+        UserDetails details;
+        try {
+            details = converter.apply(value);
+        } catch (JwtException e) {
+            String msg = "Invalid or unsupported request header JWT: " + e.getMessage();
+            throw new BadCredentialsException(msg, e);
+        } catch (Exception e) {
+            String msg = "Unexpected exception during authentication header parsing: " + e.getMessage();
+            throw new InternalAuthenticationServiceException(msg, e);
+        }
 
         return new ForwardedUserAuthentication(details);
     }

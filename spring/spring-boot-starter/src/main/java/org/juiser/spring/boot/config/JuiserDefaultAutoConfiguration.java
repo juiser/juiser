@@ -15,13 +15,14 @@
  */
 package org.juiser.spring.boot.config;
 
+import io.jsonwebtoken.Claims;
 import org.juiser.jwt.config.JwtConfig;
 import org.juiser.model.User;
-import org.juiser.servlet.user.RequestHeaderUserFactory;
-import org.juiser.spring.web.ForwardedUserFilter;
-import org.juiser.spring.web.user.RequestContextUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.lang.Assert;
+import org.juiser.servlet.GuestFallbackUserFactory;
+import org.juiser.servlet.RequestGuestFactory;
+import org.juiser.servlet.RequestHeaderUserFactory;
+import org.juiser.spring.web.RequestContextUser;
+import org.juiser.spring.web.SpringForwardedUserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -68,18 +69,35 @@ public class JuiserDefaultAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "juiserRequestUserFactory")
-    public Function<HttpServletRequest, User> juiserRequestUserFactory() {
-
-        return new RequestHeaderUserFactory(forwardedHeaderConfig().getName(), s -> {
+    @ConditionalOnMissingBean(name = "juiserJwsUserFactory")
+    public Function<String, User> juiserJwsUserFactory() {
+        return s -> {
             Claims claims = juiserForwardedUserJwsClaimsExtractor.apply(s);
-            Assert.state(claims != null && !claims.isEmpty(),
+            org.springframework.util.Assert.state(claims != null && !claims.isEmpty(),
                 "juiserForwardedUserJwsClaimsExtractor cannot return null or empty Claims instances.");
             User user = juiserJwtClaimsUserFactory.apply(claims);
-            Assert.state(user != null,
+            org.springframework.util.Assert.state(user != null,
                 "juiserJwtClaimsUserFactory cannot return null User instances.");
             return user;
-        });
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "juiserRequestHeaderUserFactory")
+    public Function<HttpServletRequest, User> juiserRequestHeaderUserFactory() {
+        return new RequestHeaderUserFactory(forwardedHeaderConfig().getName(), juiserJwsUserFactory());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "juiserGuestFactory")
+    public Function<HttpServletRequest, User> juiserGuestFactory() {
+        return new RequestGuestFactory();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "juiserRequestUserFactory")
+    public Function<HttpServletRequest, User> juiserRequestUserFactory() {
+        return new GuestFallbackUserFactory(juiserRequestHeaderUserFactory(), juiserGuestFactory());
     }
 
     @Bean
@@ -88,7 +106,7 @@ public class JuiserDefaultAutoConfiguration {
 
         ForwardedUserFilterConfig cfg = juiserForwardedUserFilterConfig();
 
-        Filter filter = new ForwardedUserFilter(forwardedHeaderConfig().getName(),
+        Filter filter = new SpringForwardedUserFilter(forwardedHeaderConfig().getName(),
             juiserRequestUserFactory(),
             cfg.getRequestAttributeNames());
 

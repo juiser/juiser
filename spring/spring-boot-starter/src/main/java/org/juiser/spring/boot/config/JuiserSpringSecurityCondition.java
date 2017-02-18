@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class JuiserSpringSecurityCondition extends SpringBootCondition {
 
-    private static final Set<String> props = new LinkedHashSet<>(Arrays.asList("juiser.security.enabled", "security.basic.enabled", "management.security.enabled"));
+    private static final Set<String> props = new LinkedHashSet<>(Arrays.asList("juiser.security.enabled"));
 
     //This class is only available in Spring Security 4.2 or later, which is what we want since juiser-spring-security support requires 4.2+:
     private static final String SPRING_SEC_CLASS_NAME = "org.springframework.security.web.authentication.preauth.RequestAttributeAuthenticationFilter";

@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 /**
  * @since 0.1.0
  */
-@ConfigurationProperties("juiser.user.header")
+@ConfigurationProperties("juiser.header")
 public class ForwardedHeaderConfig<T extends JwtConfig> {
 
     @SuppressWarnings("WeakerAccess")
@@ -34,7 +34,7 @@ public class ForwardedHeaderConfig<T extends JwtConfig> {
 
     @SuppressWarnings("unchecked")
     public ForwardedHeaderConfig() {
-        this((T)new JwtConfig());
+        this((T) new JwtConfig());
     }
 
     public ForwardedHeaderConfig(T jwt) {

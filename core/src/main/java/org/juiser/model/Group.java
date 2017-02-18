@@ -13,15 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.juiser.spring.security.core;
 
-import org.juiser.model.User;
-import org.springframework.security.core.Authentication;
+package org.juiser.model;
 
 /**
  * @since 0.1.0
  */
-public interface UserAuthentication extends Authentication {
+public interface Group {
 
-    User getUser();
+    String getName();
+
+    String getDescription();
 }

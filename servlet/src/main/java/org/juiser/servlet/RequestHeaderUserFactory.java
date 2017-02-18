@@ -13,13 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.juiser.servlet.user;
+package org.juiser.servlet;
 
-import org.juiser.model.User;
-import org.juiser.model.UserBuilder;
 import io.jsonwebtoken.lang.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.juiser.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.function.Function;
@@ -32,36 +29,32 @@ import java.util.function.Function;
  */
 public class RequestHeaderUserFactory implements Function<HttpServletRequest, User> {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestHeaderUserFactory.class);
-
     private final String headerName;
 
-    private final Function<String, User> stringToUserConverter;
+    private final Function<String, User> headerValueToUser;
 
-    public RequestHeaderUserFactory(String headerName, Function<String, User> stringToUserConverter) {
+    public RequestHeaderUserFactory(String headerName, Function<String, User> headerValueToUserConverter) {
         Assert.hasText(headerName, "headerName argument cannot be null or empty.");
-        Assert.notNull(stringToUserConverter, "stringToUserConverter cannot be null.");
+        Assert.notNull(headerValueToUserConverter, "headerValueToUserConverter function cannot be null.");
         this.headerName = headerName;
-        this.stringToUserConverter = stringToUserConverter;
+        this.headerValueToUser = headerValueToUserConverter;
     }
 
     @Override
     public User apply(HttpServletRequest request) {
         String value = request.getHeader(headerName);
         Assert.hasText(value, "header value cannot be null or empty.");
-
         User user;
-
         try {
-            user = stringToUserConverter.apply(value);
+            user = headerValueToUser.apply(value);
         } catch (Exception e) {
-            if (log.isInfoEnabled()) {
-                String msg = "Unable to determine request User based on " + headerName + " header value [" + value +
-                    "].  Returning an anonymous user.  Message: " + e.getMessage();
-                log.info(msg);
-            }
-            user = new UserBuilder().setGivenName("Guest").setAuthenticated(false).build();
+            String msg = "Unable to determine request User based on " + headerName + " header value [" + value +
+                "] when invoking headerValue-to-User conversion function: " + e.getMessage();
+            throw new IllegalStateException(msg, e);
         }
+
+        Assert.state(user != null, "User instance returned from headerValue-to-User conversion " +
+            "function cannot be null.");
 
         return user;
     }

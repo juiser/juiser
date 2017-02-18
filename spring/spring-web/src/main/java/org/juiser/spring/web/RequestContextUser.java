@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.juiser.spring.web.user;
+package org.juiser.spring.web;
 
 import org.juiser.model.ResolvingUser;
 import org.juiser.model.User;
