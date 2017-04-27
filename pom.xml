@@ -34,15 +34,13 @@
         <developer>
             <id>lhazlewood</id>
             <name>Les Hazlewood</name>
-            <email>les@okta.com</email>
-            <organization>Okta, Inc.</organization>
+            <url>http://leshazlewood.com</url>
             <timezone>-8</timezone>
         </developer>
         <developer>
             <id>mraible</id>
             <name>Matt Raible</name>
-            <email>matt.raible@okta.com</email>
-            <organization>Okta, Inc.</organization>
+            <url>http://raibledesigns.com</url>
             <timezone>-7</timezone>
         </developer>
     </developers>
