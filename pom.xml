@@ -19,9 +19,33 @@
 
     <groupId>org.juiser</groupId>
     <artifactId>juiser-root</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>Juiser :: Root</name>
     <packaging>pom</packaging>
+
+    <description>
+        Juiser has one purpose and one purpose only - to translate an authentication token
+        into an intuitive `User` object and make that `User` object available during a request.
+    </description>
+
+    <url>https://github.com/juiser/juiser</url>
+
+    <developers>
+        <developer>
+            <id>lhazlewood</id>
+            <name>Les Hazlewood</name>
+            <email>les@okta.com</email>
+            <organization>Okta, Inc.</organization>
+            <timezone>-8</timezone>
+        </developer>
+        <developer>
+            <id>mraible</id>
+            <name>Matt Raible</name>
+            <email>matt.raible@okta.com</email>
+            <organization>Okta, Inc.</organization>
+            <timezone>-7</timezone>
+        </developer>
+    </developers>
 
     <licenses>
         <license>

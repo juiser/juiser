@@ -20,7 +20,7 @@ is a small Java library that automates token authentication during an HTTP reque
 but clean `User` object will be available to your code to support user-specific logic and authorization decisions.
 
 Currently Juiser supports the `X-Forwarded-User` header with either JSON or [JWS](https://tools.ietf.org/html/rfc7515)
-values.  The first Juiser 0.1.0 release will support Spring Boot applications, with other application environments
+values.  Juiser 1.0.0 release supports Spring Boot applications, with other application environments
 (e.g. Servlet only) added in the future.  If you'd like to help in this effort, please open a GitHub issue to start 
 collaborating!
 
