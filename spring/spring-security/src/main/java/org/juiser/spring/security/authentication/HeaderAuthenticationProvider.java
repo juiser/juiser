@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class HeaderAuthenticationProvider implements AuthenticationProvider {
 

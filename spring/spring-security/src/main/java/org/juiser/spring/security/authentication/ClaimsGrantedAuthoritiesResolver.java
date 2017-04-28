@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class ClaimsGrantedAuthoritiesResolver implements Function<Claims, Collection<? extends GrantedAuthority>> {
 

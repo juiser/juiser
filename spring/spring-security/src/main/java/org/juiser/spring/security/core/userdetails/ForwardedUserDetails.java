@@ -24,7 +24,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class ForwardedUserDetails implements UserDetails {
 

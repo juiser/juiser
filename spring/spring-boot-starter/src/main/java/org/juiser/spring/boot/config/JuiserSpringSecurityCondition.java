@@ -28,7 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class JuiserSpringSecurityCondition extends SpringBootCondition {
 

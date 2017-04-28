@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * {@link Conditional} that only matches when Spring Security 4.2+ classes are not on the classpath <em>OR</em>
  * "juiser.security.enabled" is {@code false}.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

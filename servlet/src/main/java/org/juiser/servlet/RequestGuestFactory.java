@@ -24,7 +24,7 @@ import java.util.function.Function;
 /**
  * A simple function that ignores the request and always returns a non-null 'guest' (unauthenticated) user.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class RequestGuestFactory implements Function<HttpServletRequest, User> {
 

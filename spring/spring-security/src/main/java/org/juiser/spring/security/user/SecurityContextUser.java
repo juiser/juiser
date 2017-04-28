@@ -25,7 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class SecurityContextUser extends ResolvingUser {
 

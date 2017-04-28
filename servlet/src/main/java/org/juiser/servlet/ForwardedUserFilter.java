@@ -34,7 +34,7 @@ import java.util.LinkedHashSet;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class ForwardedUserFilter implements Filter {
 

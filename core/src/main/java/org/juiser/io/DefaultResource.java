@@ -20,7 +20,7 @@ import io.jsonwebtoken.lang.Assert;
 import java.io.InputStream;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class DefaultResource implements Resource {
 

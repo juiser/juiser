@@ -25,7 +25,7 @@ import java.util.function.Function;
  * Inspects a Request header and creates a {@link User} instance based on the header value.  Binding the resulting
  * User to the request (or anywhere else) is the responsibility of the caller.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class RequestHeaderUserFactory implements Function<HttpServletRequest, User> {
 

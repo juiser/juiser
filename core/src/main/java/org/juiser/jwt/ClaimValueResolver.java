@@ -21,7 +21,7 @@ import io.jsonwebtoken.lang.Assert;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public abstract class ClaimValueResolver<T> implements Function<Claims, T> {
 

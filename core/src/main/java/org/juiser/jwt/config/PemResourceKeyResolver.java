@@ -35,7 +35,7 @@ import java.security.cert.X509Certificate;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class PemResourceKeyResolver implements Function<Resource, Key> {
 

@@ -30,7 +30,7 @@ import java.security.Key
 import static org.junit.Assert.assertEquals
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 class ClaimsExpressionEvaluatorTest {
 

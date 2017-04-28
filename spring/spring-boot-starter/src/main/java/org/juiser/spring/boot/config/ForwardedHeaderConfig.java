@@ -20,7 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.Assert;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 @ConfigurationProperties("juiser.header")
 public class ForwardedHeaderConfig<T extends JwtConfig> {

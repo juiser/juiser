@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class DefaultMapUserFactory implements Function<Map<String, ?>, User> {
 

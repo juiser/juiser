@@ -26,7 +26,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 @SuppressWarnings({"SpringAutowiredFieldsWarningInspection", "SpringJavaAutowiringInspection"})
 @Configuration

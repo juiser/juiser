@@ -35,7 +35,7 @@ import java.util.function.Function;
  * <p>Any exceptions thrown when invoking the delegate/fallback functions will be logged as {@code warn} statements
  * to help with troubleshooting.</p>
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class GuestFallbackUserFactory implements Function<HttpServletRequest, User> {
 

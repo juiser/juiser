@@ -25,7 +25,7 @@ import java.util.TimeZone;
  * User representation suitable for most applications.  Most fields are based on
  * <a href="http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">OpenID Connect Standard Claims</a>.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 public interface User {
 

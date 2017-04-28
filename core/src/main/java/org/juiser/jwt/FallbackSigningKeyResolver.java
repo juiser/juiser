@@ -24,7 +24,7 @@ import io.jsonwebtoken.lang.Assert;
 import java.security.Key;
 
 /**
- * @since 0.1.0
+ * @since 1.0.0
  */
 public class FallbackSigningKeyResolver extends SigningKeyResolverAdapter {
 
