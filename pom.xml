@@ -19,7 +19,7 @@
 
     <groupId>org.juiser</groupId>
     <artifactId>juiser-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Juiser :: Root</name>
     <packaging>pom</packaging>
 
@@ -57,7 +57,7 @@
         <connection>scm:git:https://github.com/juiser/juiser.git</connection>
         <developerConnection>scm:git:git@github.com:juiser/juiser.git</developerConnection>
         <url>git@github.com:juiser/juiser.git</url>
-        <tag>HEAD</tag>
+        <tag>v1.0.0</tag>
     </scm>
 
     <issueManagement>
